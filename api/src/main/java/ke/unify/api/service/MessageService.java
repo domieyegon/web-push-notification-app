@@ -53,12 +53,12 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
-    public void sendNotification(Subscription subscription, String messageJson) {
+    public void sendNotification(Subscription subscription, String messageJson)  {
         System.out.println("Request to send web push notification: "+ messageJson);
         try {
             pushService.send(new Notification(subscription, messageJson));
         } catch (GeneralSecurityException | IOException | JoseException | ExecutionException
-                 | InterruptedException e) {
+                 | InterruptedException  e) {
             e.printStackTrace();
         }
     }
@@ -70,11 +70,31 @@ public class MessageService {
         System.out.println("Sending notifications to all subscribers");
 
         var json = """
-        {
-          "title": "Server says hello!",
-          "body": "It is now: %s"
-        }
-        """;
+                        {
+                            "notification": {
+                                 "data" : {
+                                    "onActionClick": {
+                                        "default": { "operation": "openWindow" },
+                                        "view": {
+                                            "operation": "focusLastFocusedOrOpen",
+                                            "url": "/view"
+                                        },
+                                        "like": {
+                                            "operation": "navigateLastFocusedOrOpen",
+                                            "url": "/like"
+                                        }
+                                    }
+                                 },
+                                 "body" : "Announcement",
+                                 "title" : "Announcement",
+                                 "icon" : "https://www.creators3d.com/assets/icon-128x128.png",
+                                 "actions": [
+                                    { "action": "view", "title": "View" },
+                                    { "action": "like", "title": "Like" }
+                                ]
+                               }
+                        }
+                """;
 
         subscriptions.forEach(subscription -> {
             try {
