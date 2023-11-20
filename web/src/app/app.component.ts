@@ -20,7 +20,15 @@ export class AppComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.requestSubscription();
+    this.checkIsSubscribeToPushNotifications();
+  }
+
+  checkIsSubscribeToPushNotifications(){
+    this._swPush.subscription.subscribe((subscription) => {
+      if (!subscription){
+        this.requestSubscription();
+      }
+    });
   }
 
 
@@ -33,13 +41,10 @@ export class AppComponent implements OnInit {
     this.messageService.getPublicKey().subscribe({
       next: (res)=> {
         const publicKey:string = res.body?.publicKey || '';
-
-        console.log(publicKey);
-
         this._swPush.requestSubscription({
           serverPublicKey: publicKey
         }).then((res)=> {
-          console.log(JSON.stringify(res));
+          console.log("Successfully subscribed to push notifications");
           this.saveSubscription(res);
           
         }).catch((err)=> console.log(err));

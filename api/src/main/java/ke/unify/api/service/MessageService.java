@@ -85,12 +85,13 @@ public class MessageService {
                                         }
                                     }
                                  },
-                                 "body" : "Announcement",
-                                 "title" : "Announcement",
-                                 "icon" : "https://www.creators3d.com/assets/icon-128x128.png",
+                                 "body" : "You have a new order request from Amos",
+                                 "title" : "New Order Request",
+                                 "icon" : "https://bakeconnect.app/assets/images/bake-connect-logo-dual-tone.png",
                                  "actions": [
                                     { "action": "view", "title": "View" },
-                                    { "action": "like", "title": "Like" }
+                                    { "action": "approve", "title": "Approve" },
+                                    { "action": "reject", "title": "Reject" }
                                 ]
                                }
                         }
