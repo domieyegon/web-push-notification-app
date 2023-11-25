@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MessageService } from './service/message.service';
 import { SwPush } from '@angular/service-worker';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,18 @@ export class AppComponent implements OnInit {
   constructor(
     private _swPush:SwPush,
     private messageService:MessageService,
-  ){}
+    private breakPointObserver: BreakpointObserver,
+  ){
+
+    let device = this.breakPointObserver.isMatched(Breakpoints.Handset)? 'MOBILE' :
+                 this.breakPointObserver.isMatched(Breakpoints.Tablet)? 'TABLET' :
+                 this.breakPointObserver.isMatched(Breakpoints.Web)? 'DESKTOP': 'UNKNOWN';
+    console.log(device);
+
+    // this.breakPointObserver.observe([Breakpoints.Handset]).subscribe(result=> {
+    //   console.log(result);
+    // })
+  }
 
   ngOnInit(): void {
     this.checkIsSubscribeToPushNotifications();
